@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Delight — Вкуснейшая пицца в городе</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#E53935',
+                            darkRed: '#C62828',
+                            orange: '#FF7043',
+                            yellow: '#FFB300',
+                            dark: '#1E1E1E',
+                            lightBg: '#FFFBF7',
+                            cardBg: '#FFFFFF'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .pizza-card:hover .pizza-img {
+            transform: scale(1.08) rotate(5deg);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E53935;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-brand-lightBg text-brand-dark font-sans antialiased selection:bg-brand-red selection:text-white">
+
+    <!-- Навигация -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-orange-100 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Логотип -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 rounded-full bg-brand-red flex items-center justify-center text-white text-2xl shadow-lg shadow-red-500/30 group-hover:rotate-12 transition-transform">
+                    <i class="fa-solid font-bold fa-pizza-slice"></i>
+                </div>
+                <div>
+                    <span class="font-serif text-2xl font-bold tracking-tight text-brand-dark block leading-none">Pizza <span class="text-brand-red">Delight</span></span>
+                    <span class="text-[10px] uppercase font-bold tracking-widest text-brand-orange">Итальянская кухня</span>
+                </div>
+            </a>
+
+            <!-- Меню для ПК -->
+            <nav class="hidden md:flex items-center space-x-8 font-medium text-gray-700">
+                <a href="#menu" class="hover:text-brand-red transition-colors">Меню</a>
+                <a href="#promos" class="hover:text-brand-red transition-colors">Акции</a>
+                <a href="#about" class="hover:text-brand-red transition-colors">О нас</a>
+                <a href="#contacts" class="hover:text-brand-red transition-colors">Контакты</a>
+            </nav>
+
+            <!-- Контакты и Корзина -->
+            <div class="flex items-center gap-4">
+                <a href="tel:+78005553535" class="hidden lg:flex items-center gap-2 text-sm font-semibold text-gray-700 hover:text-brand-red transition-colors">
+                    <i class="fa-solid fa-phone text-brand-red"></i>
+                    8 (800) 555-35-35
+                </a>
+
+                <!-- Кнопка корзины -->
+                <button onclick="toggleCart()" class="relative bg-brand-red hover:bg-brand-darkRed text-white px-4 py-2.5 rounded-full font-semibold flex items-center gap-3 shadow-lg shadow-red-500/20 transition-all active:scale-95">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="hidden sm:inline">Корзина</span>
+                    <span id="cart-count-badge" class="bg-brand-yellow text-brand-dark font-extrabold text-xs px-2 py-0.5 rounded-full min-w-[20px] text-center">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Главный баннер (Hero) -->
+    <section class="relative overflow-hidden py-12 lg:py-20 bg-gradient-to-b from-orange-50/50 to-transparent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="text-center lg:text-left">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-100 text-brand-red font-semibold text-sm mb-6">
+                        <i class="fa-solid fa-fire text-brand-orange"></i> Горячая доставка за 30 минут
+                    </span>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-brand-dark leading-tight mb-6">
+                        Настоящая пицца из <span class="text-brand-red font-serif italic">дровяной печи</span>
+                    </h1>
+                    <p class="text-lg text-gray-600 mb-8 max-w-xl mx-auto lg:mx-0">
+                        Готовим по традиционным итальянским рецептам. Только свежие ингредиенты, тянущийся сыр моцарелла и хрустящее бортиковое тесто.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#menu" class="w-full sm:w-auto text-center bg-brand-red hover:bg-brand-darkRed text-white font-bold px-8 py-4 rounded-full shadow-lg shadow-red-500/30 transition-all hover:scale-105 active:scale-95">
+                            Выбрать пиццу
+                        </a>
+                        <a href="#promos" class="w-full sm:w-auto text-center border-2 border-gray-300 hover:border-brand-red text-gray-700 hover:text-brand-red font-bold px-8 py-4 rounded-full transition-all">
+                            Смотреть акции
+                        </a>
+                    </div>
+                    
+                    <!-- Преимущества в цифрах -->
+                    <div class="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-gray-200">
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-brand-red">30+</div>
+                            <div class="text-xs sm:text-sm text-gray-500">Видов пиццы</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-brand-red">30 мин</div>
+                            <div class="text-xs sm:text-sm text-gray-500">Доставка или бесплатно</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-brand-red">4.9 ★</div>
+                            <div class="text-xs sm:text-sm text-gray-500">Отзывы клиентов</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Картинка пиццы -->
+                <div class="relative flex justify-center">
+                    <div class="absolute -z-10 w-72 h-72 sm:w-96 sm:h-96 bg-brand-yellow/30 rounded-full blur-3xl"></div>
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80" 
+                         alt="Сочная пицца Pepperoni" 
+                         class="w-full max-w-lg object-cover rounded-full shadow-2xl border-8 border-white transform lg:rotate-6 hover:rotate-0 transition-transform duration-500">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Акции -->
+    <section id="promos" class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-8">Горячие акции</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Акция 1 -->
+                <div class="bg-gradient-to-r from-red-500 to-brand-red rounded-2xl p-6 text-white shadow-md relative overflow-hidden group">
+                    <div class="relative z-10">
+                        <span class="bg-white/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3 inline-block">1+1 = 3</span>
+                        <h3 class="text-2xl font-bold mb-2">Каждая 3-я пицца бесплатно!</h3>
+                        <p class="text-white/80 text-sm mb-4">При заказе любых 2 пицц 35 см — Пепперони 25 см в подарок.</p>
+                        <span class="text-xs font-mono bg-black/20 px-2 py-1 rounded">Промокод: FREEPIZZA</span>
+                    </div>
+                    <i class="fa-solid fa-gift absolute -right-4 -bottom-4 text-8xl text-white/10 group-hover:scale-110 transition-transform"></i>
+                </div>
+                <!-- Акция 2 -->
+                <div class="bg-gradient-to-r from-amber-500 to-brand-yellow rounded-2xl p-6 text-white shadow-md relative overflow-hidden group">
+                    <div class="relative z-10">
+                        <span class="bg-white/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3 inline-block">Скидка 20%</span>
+                        <h3 class="text-2xl font-bold mb-2">Скидка на самовывоз</h3>
+                        <p class="text-white/90 text-sm mb-4">Заберите заказ сами из любой нашей пиццерии со скидкой 20%.</p>
+                        <span class="text-xs font-mono bg-black/20 px-2 py-1 rounded">Промокод: TAKEAWAY</span>
+                    </div>
+                    <i class="fa-solid fa-bag-shopping absolute -right-4 -bottom-4 text-8xl text-white/10 group-hover:scale-110 transition-transform"></i>
+                </div>
+                <!-- Акция 3 -->
+                <div class="bg-gradient-to-r from-gray-800 to-brand-dark rounded-2xl p-6 text-white shadow-md relative overflow-hidden group">
+                    <div class="relative z-10">
+                        <span class="bg-brand-red text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3 inline-block">Комбо</span>
+                        <h3 class="text-2xl font-bold mb-2">Комбо "Дл компаний"</h3>
+                        <p class="text-gray-300 text-sm mb-4">3 большие пиццы + 2 напитка на выбор по выгоде до 30%.</p>
+                        <span class="text-xs font-mono bg-white/20 px-2 py-1 rounded">Промокод: PARTY</span>
+                    </div>
+                    <i class="fa-solid fa-users absolute -right-4 -bottom-4 text-8xl text-white/10 group-hover:scale-110 transition-transform"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Интерактивное меню -->
+    <section id="menu" class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-dark mb-4">Наше Меню</h2>
+                <p class="text-gray-600 max-w-xl mx-auto">Выберите свою идеальную пиццу. Вы можете настроить размер перед добавлением в корзину.</p>
+                
+                <!-- Категории / Фильтры -->
+                <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mt-8" id="category-filters">
+                    <button onclick="filterCategory('all')" class="cat-btn active bg-brand-red text-white font-semibold px-6 py-2.5 rounded-full transition-all shadow-sm">Все</button>
+                    <button onclick="filterCategory('classic')" class="cat-btn bg-white hover:bg-gray-100 text-gray-700 font-semibold px-6 py-2.5 rounded-full transition-all shadow-sm">Классические</button>
+                    <button onclick="filterCategory('special')" class="cat-btn bg-white hover:bg-gray-100 text-gray-700 font-semibold px-6 py-2.5 rounded-full transition-all shadow-sm">Фирменные</button>
+                    <button onclick="filterCategory('vegetarian')" class="cat-btn bg-white hover:bg-gray-100 text-gray-700 font-semibold px-6 py-2.5 rounded-full transition-all shadow-sm">Вегетарианские</button>
+                </div>
+            </div>
+
+            <!-- Сетка товаров -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="pizza-grid">
+                <!-- Карточки будут сгенерированы через JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма заказа / Контакты -->
+    <section id="contacts" class="py-16 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Информация -->
+                <div>
+                    <h2 class="text-3xl font-extrabold mb-6">Ждем вас в гости или доставим на дом</h2>
+                    <p class="text-gray-600 mb-8">Закажите доставку прямо сейчас или посетите нашу уютную пиццерию в центре города.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-red-100 text-brand-red flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Адрес:</h4>
+                                <p class="text-gray-600">г. Москва, ул. Тверская, д. 12</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-red-100 text-brand-red flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Режим работы:</h4>
+                                <p class="text-gray-600">Ежедневно: 10:00 — 23:00 (Доставка 24/7)</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-red-100 text-brand-red flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Телефон:</h4>
+                                <p class="text-gray-600">+7 (800) 555-35-35</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Форма быстрого вопроса / брони -->
+                <div class="bg-brand-lightBg p-8 rounded-3xl border border-orange-100 shadow-sm">
+                    <h3 class="text-2xl font-bold mb-4">Остались вопросы?</h3>
+                    <p class="text-gray-600 text-sm mb-6">Оставьте заявку и наш менеджер перезвонит вам в течение 5 минут.</p>
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Ваше имя</label>
+                            <input type="text" required placeholder="Александр" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-red focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Номер телефона</label>
+                            <input type="tel" required placeholder="+7 (___) ___-__-__" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-red focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Сообщение или адрес</label>
+                            <textarea rows="3" placeholder="Укажите ваш вопрос..." class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-red focus:outline-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-brand-red hover:bg-brand-darkRed text-white font-bold py-3.5 rounded-xl transition-all shadow-md">
+                            Отправить заявку
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer class="bg-brand-dark text-white py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-brand-red flex items-center justify-center text-white text-xl">
+                    <i class="fa-solid fa-pizza-slice"></i>
+                </div>
+                <span class="font-serif text-xl font-bold tracking-tight">Pizza <span class="text-brand-red">Delight</span></span>
+            </div>
+            <p class="text-gray-400 text-sm text-center">© 2026 Pizza Delight. Все права защищены.</p>
+            <div class="flex space-x-4 text-xl text-gray-400">
+                <a href="#" class="hover:text-brand-red"><i class="fa-brands fa-vk"></i></a>
+                <a href="#" class="hover:text-brand-red"><i class="fa-brands fa-telegram"></i></a>
+                <a href="#" class="hover:text-brand-red"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Выдвижная корзина (Drawer / Modal) -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 pointer-events-none transition-opacity duration-300 opacity-0">
+        <!-- Бэкдроп -->
+        <div id="cart-backdrop" onclick="toggleCart()" class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"></div>
+        
+        <!-- Контент корзины -->
+        <div id="cart-panel" class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 pointer-events-auto">
+            <!-- Шапка корзины -->
+            <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+                <h3 class="text-xl font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping text-brand-red"></i>
+                    Ваш заказ
+                </h3>
+                <button onclick="toggleCart()" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
+                    <i class="fa-solid fa-xmark text-gray-600"></i>
+                </button>
+            </div>
+
+            <!-- Список товаров -->
+            <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
+                <!-- Заполняется динамически -->
+            </div>
+
+            <!-- Итог и Оформление -->
+            <div class="p-6 border-t border-gray-100 bg-gray-50">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-gray-600 font-medium">Итого к оплате:</span>
+                    <span id="cart-total" class="text-2xl font-extrabold text-brand-dark">0 ₽</span>
+                </div>
+                <button onclick="openCheckoutModal()" id="checkout-btn" disabled class="w-full bg-brand-red hover:bg-brand-darkRed disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl shadow-lg transition-all">
+                    Оформить заказ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно оформления заказа -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeCheckoutModal()" class="absolute right-6 top-6 text-gray-400 hover:text-gray-600">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <h3 class="text-2xl font-bold mb-2">Оформление заказа</h3>
+            <p class="text-sm text-gray-500 mb-6">Заполните данные для доставки пиццы</p>
+
+            <form onsubmit="submitOrder(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Имя</label>
+                    <input type="text" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-red outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Телефон</label>
+                    <input type="tel" required placeholder="+7" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-red outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Адрес доставки</label>
+                    <input type="text" required placeholder="Улица, дом, квартира" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-red outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Способ оплаты</label>
+                    <select class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-red outline-none">
+                        <option>Картой при получении</option>
+                        <option>Наличными курьеру</option>
+                        <option>Онлайн на сайте</option>
+                    </select>
+                </div>
+                <div class="pt-4 border-t border-gray-100 flex justify-between items-center">
+                    <div>
+                        <div class="text-xs text-gray-500">Смма заказа:</div>
+                        <div id="modal-total" class="text-xl font-bold text-brand-red">0 ₽</div>
+                    </div>
+                    <button type="submit" class="bg-brand-red hover:bg-brand-darkRed text-white font-bold px-6 py-3 rounded-xl shadow-md">
+                        Подтвердить заказ
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Уведомления (Toast) -->
+    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 z-50 opacity-0 pointer-events-none transition-all duration-300">
+        <i class="fa-solid fa-circle-check text-green-400"></i>
+        <span id="toast-message">Товар добавлен в корзину!</span>
+    </div>
+
+    <!-- Скрипты -->
+    <script>
+        // База данных пицц
+        const pizzas = [
+            {
+                id: 1,
+                name: 'Пепперони Фреш',
+                category: 'classic',
+                description: 'Пикантная пепперони, томатный соус, сыр моцарелла и свежие томаты.',
+                price: { 25: 490, 30: 690, 35: 890 },
+                image: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=500&q=80',
+                popular: true
+            },
+            {
+                id: 2,
+                name: 'Маргарита Гурме',
+                category: 'vegetarian',
+                description: 'Классическое сочетание свежего базилика, томатов черри и премиальной моцареллы.',
+                price: { 25: 420, 30: 590, 35: 750 },
+                image: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?auto=format&fit=crop&w=500&q=80'
+            },
+            {
+                id: 3,
+                name: 'Четыре Сыра',
+                category: 'special',
+                description: 'Сливочный соус, моцарелла, пармезан, сыр с голубой плесенью и чеддер.',
+                price: { 25: 550, 30: 780, 35: 990 },
+                image: 'https://images.unsplash.com/photo-1573821663912-569905455b1c?auto=format&fit=crop&w=500&q=80',
+                popular: true
+            },
+            {
+                id: 4,
+                name: 'Барбекю Чикен',
+                category: 'special',
+                description: 'Сочная куриная грудка, соус BBQ, красный лук, бекон и моцарелла.',
+                price: { 25: 520, 30: 730, 35: 930 },
+                image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=500&q=80'
+            },
+            {
+                id: 5,
+                name: 'Овощной Микс',
+                category: 'vegetarian',
+                description: 'Шампиньоны, болгарский перец, маслины, свежий лук, томаты и зелень.',
+                price: { 25: 450, 30: 620, 35: 790 },
+                image: 'https://images.unsplash.com/photo-1511688878353-3a2f5be94cd7?auto=format&fit=crop&w=500&q=80'
+            },
+            {
+                id: 6,
+                name: 'Мясное Ассорти',
+                category: 'classic',
+                description: 'Ветчина, пепперони, острая колбаса, бекон, томатный соус и сыр.',
+                price: { 25: 580, 30: 820, 35: 1050 },
+                image: 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=500&q=80',
+                popular: true
+            }
+        ];
+
+        // Состояние корзины и выбранных размеров
+        let cart = [];
+        let selectedSizes = {};
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            // Устанавливаем размер по умолчанию (30 см) для всех товаров
+            pizzas.forEach(p => selectedSizes[p.id] = 30);
+            renderMenu('all');
+            updateCartUI();
+        });
+
+        // Отрисовка меню
+        function renderMenu(category) {
+            const grid = document.getElementById('pizza-grid');
+            grid.innerHTML = '';
+
+            const filtered = category === 'all' 
+                ? pizzas 
+                : pizzas.filter(p => p.category === category);
+
+            filtered.forEach(pizza => {
+                const currentSize = selectedSizes[pizza.id];
+                const currentPrice = pizza.price[currentSize];
+
+                const card = document.createElement('div');
+                card.className = 'pizza-card bg-white rounded-3xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-xl transition-all duration-300';
+                card.innerHTML = `
+                    <div>
+                        <div class="relative mb-4 overflow-hidden rounded-2xl bg-orange-50 flex items-center justify-center p-4">
+                            ${pizza.popular ? '<span class="absolute top-3 left-3 bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-sm">ХИТ</span>' : ''}
+                            <img src="${pizza.image}" alt="${pizza.name}" class="pizza-img w-48 h-48 object-cover rounded-full transition-transform duration-500 shadow-md">
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-dark mb-2">${pizza.name}</h3>
+                        <p class="text-gray-500 text-sm mb-4 leading-relaxed">${pizza.description}</p>
+                    </div>
+
+                    <div>
+                        <!-- Переключатель размеров -->
+                        <div class="bg-gray-100 p-1 rounded-xl flex mb-4 text-xs font-semibold text-gray-600">
+                            <button onclick="changeSize(${pizza.id}, 25)" class="flex-1 py-1.5 rounded-lg transition-all ${currentSize === 25 ? 'bg-white text-brand-dark shadow-sm' : 'hover:text-brand-dark'}">25 см</button>
+                            <button onclick="changeSize(${pizza.id}, 30)" class="flex-1 py-1.5 rounded-lg transition-all ${currentSize === 30 ? 'bg-white text-brand-dark shadow-sm' : 'hover:text-brand-dark'}">30 см</button>
+                            <button onclick="changeSize(${pizza.id}, 35)" class="flex-1 py-1.5 rounded-lg transition-all ${currentSize === 35 ? 'bg-white text-brand-dark shadow-sm' : 'hover:text-brand-dark'}">35 см</button>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-2">
+                            <div>
+                                <span class="text-xs text-gray-400 block">Цена</span>
+                                <span class="text-2xl font-extrabold text-brand-dark">${currentPrice} ₽</span>
+                            </div>
+                            <button onclick="addToCart(${pizza.id})" class="bg-brand-red hover:bg-brand-darkRed text-white px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2 shadow-md hover:shadow-lg active:scale-95 transition-all">
+                                <i class="fa-solid fa-plus"></i> В корзину
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Фильтрация категорий
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-red', 'text-white');
+                btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+            });
+            event.target.classList.remove('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+            event.target.classList.add('bg-brand-red', 'text-white');
+            renderMenu(cat);
+        }
+
+        // Смена размера пиццы
+        function changeSize(pizzaId, size) {
+            selectedSizes[pizzaId] = size;
+            // Перерисовываем текущее состояние карточек
+            const activeCatBtn = document.querySelector('.cat-btn.bg-brand-red');
+            const activeCategory = activeCatBtn ? activeCatBtn.getAttribute('onclick').match(/'([^']+)'/)[1] : 'all';
+            renderMenu(activeCategory);
+        }
+
+        // Добавление в корзину
+        function addToCart(pizzaId) {
+            const pizza = pizzas.find(p => p.id === pizzaId);
+            const size = selectedSizes[pizzaId];
+            const price = pizza.price[size];
+
+            const existingIndex = cart.findIndex(item => item.id === pizzaId && item.size === size);
+
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity++;
+            } else {
+                cart.push({
+                    id: pizza.id,
+                    name: pizza.name,
+                    size: size,
+                    price: price,
+                    image: pizza.image,
+                    quantity: 1
+                });
+            }
+
+            updateCartUI();
+            showToast(`Добавлено: ${pizza.name} (${size} см)`);
+        }
+
+        // Изменение количества в корзине
+        function updateQuantity(index, delta) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        }
+
+        // Обновление интерфейса корзины
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const totalEl = document.getElementById('cart-total');
+            const badge = document.getElementById('cart-count-badge');
+            const checkoutBtn = document.getElementById('checkout-btn');
+
+            container.innerHTML = '';
+            let total = 0;
+            let count = 0;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fa-solid fa-basket-shopping text-5xl mb-4"></i>
+                        <p class="text-lg font-medium">Ваша корзина пуста</p>
+                        <p class="text-sm">Выберите вкуную пиццу из меню выше!</p>
+                    </div>
+                `;
+                checkoutBtn.disabled = true;
+            } else {
+                cart.forEach((item, index) => {
+                    total += item.price * item.quantity;
+                    count += item.quantity;
+
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'flex items-center gap-4 bg-gray-50 p-3 rounded-2xl border border-gray-100';
+                    itemEl.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-sm text-brand-dark">${item.name}</h4>
+                            <span class="text-xs text-gray-500">${item.size} см</span>
+                            <div class="font-bold text-brand-red text-sm mt-1">${item.price * item.quantity} ₽</div>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border border-gray-200">
+                            <button onclick="updateQuantity(${index}, -1)" class="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-brand-red font-bold">-</button>
+                            <span class="text-sm font-bold w-4 text-center">${item.quantity}</span>
+                            <button onclick="updateQuantity(${index}, 1)" class="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-brand-red font-bold">+</button>
+                        </div>
+                    `;
+                    container.appendChild(itemEl);
+                });
+                checkoutBtn.disabled = false;
+            }
+
+            totalEl.innerText = `${total} ₽`;
+            document.getElementById('modal-total').innerText = `${total} ₽`;
+            badge.innerText = count;
+        }
+
+        // Открытие/закрытие боковой корзины
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            const panel = document.getElementById('cart-panel');
+            
+            if (drawer.classList.contains('opacity-0')) {
+                drawer.classList.remove('opacity-0', 'pointer-events-none');
+                panel.classList.remove('translate-x-full');
+            } else {
+                drawer.classList.add('opacity-0', 'pointer-events-none');
+                panel.classList.add('translate-x-full');
+            }
+        }
+
+        // Модальное окно заказа
+        function openCheckoutModal() {
+            toggleCart();
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function submitOrder(e) {
+            e.preventDefault();
+            closeCheckoutModal();
+            cart = [];
+            updateCartUI();
+            showToast('Спасибо за заказ! Наш оператор свяжется с вами.');
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            e.target.reset();
+            showToast('Заявка успешно отправлена!');
+        }
+
+        // Всплывающее уведомление (Toast)
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toast-message');
+            msg.innerText = message;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
